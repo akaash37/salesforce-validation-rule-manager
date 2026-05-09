@@ -77,11 +77,12 @@ function Home() {
 
   useEffect(() => {
 
-    if (token) {
-      fetchValidationRules();
-    }
+  if (token) {
+    fetchValidationRules();
+  }
 
-  }, []);
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, [token]);
 
   return (
     <div className="min-h-screen bg-gray-100">
