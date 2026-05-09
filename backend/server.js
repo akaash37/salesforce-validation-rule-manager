@@ -49,7 +49,7 @@ app.get("/callback", async (req, res) => {
     const instanceUrl = response.data.instance_url;
 
     res.redirect(
-    `https://salesforce-validation-rule-manager-azure.vercel.app/callback?token=${accessToken}&instance_url=${encodeURIComponent(instanceUrl)}`
+    `https://salesforce-validation-rule-manager-blush.vercel.app/callback?token=${accessToken}&instance_url=${encodeURIComponent(instanceUrl)}`
     );
 
   } catch (error) {
