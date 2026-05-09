@@ -10,7 +10,7 @@ function Home() {
   const instanceUrl = localStorage.getItem("instance_url");
 
   const handleLogin = () => {
-    window.location.href = "http://localhost:5000/auth/salesforce";
+    window.location.href = "https://salesforce-validation-backend-mp45.onrender.com/auth/salesforce";
   };
 
   const handleLogout = () => {
@@ -25,7 +25,7 @@ function Home() {
     try {
 
       const response = await axios.get(
-        "http://localhost:5000/validation-rules",
+        "https://salesforce-validation-backend-mp45.onrender.com/validation-rules",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -52,7 +52,7 @@ function Home() {
     try {
 
       await axios.patch(
-        "http://localhost:5000/toggle-validation-rule",
+        "https://salesforce-validation-backend-mp45.onrender.com/toggle-validation-rule",
         {
           id: rule.Id,
           active: !rule.Active
