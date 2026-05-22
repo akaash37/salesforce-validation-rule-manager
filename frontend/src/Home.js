@@ -4,6 +4,15 @@ import axios from "axios";
 function Home() {
 
   const [rules, setRules] = useState([]);
+  
+  const [loginUrl, setLoginUrl] = useState(
+  "https://login.salesforce.com"
+  );
+
+  const [clientId, setClientId] = useState("");
+
+  const [clientSecret, setClientSecret] = useState("");
+
   const [loading, setLoading] = useState(false);
 
   const [loginUrl, setLoginUrl] = useState(
@@ -14,8 +23,16 @@ function Home() {
   const instanceUrl = localStorage.getItem("instance_url");
 
   const handleLogin = () => {
-    window.location.href =
-  `https://salesforce-validation-backend-mp45.onrender.com/auth/salesforce?loginUrl=${encodeURIComponent(loginUrl)}`;
+    const stateData = encodeURIComponent(
+    JSON.stringify({
+      loginUrl,
+      clientId,
+      clientSecret
+    })
+  );
+
+  window.location.href =
+    `https://salesforce-validation-backend-mp45.onrender.com/auth/salesforce?stateData=${stateData}`;
   };
 
   const handleLogout = () => {
@@ -133,9 +150,25 @@ function Home() {
               type="text"
               value={loginUrl}
               onChange={(e) => setLoginUrl(e.target.value)}
-              placeholder="Enter Salesforce Login URL"
+              placeholder="Salesforce Login URL"
               className="w-full border p-3 rounded-lg mb-4"
-            />
+              />
+
+            <input
+              type="text"
+              value={clientId}
+              onChange={(e) => setClientId(e.target.value)}
+              placeholder="Salesforce Client ID"
+              className="w-full border p-3 rounded-lg mb-4"
+              />
+
+            <input
+              type="password"
+              value={clientSecret}
+              onChange={(e) => setClientSecret(e.target.value)}
+              placeholder="Salesforce Client Secret"
+              className="w-full border p-3 rounded-lg mb-4"
+              />
 
             <button
               onClick={handleLogin}

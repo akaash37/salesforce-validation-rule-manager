@@ -16,16 +16,21 @@ app.get("/", (req, res) => {
 
 app.get("/auth/salesforce", (req, res) => {
 
-  const loginUrl =
-    req.query.loginUrl ||
-    "https://login.salesforce.com";
-     const code = req.query.code;
+  const stateData = req.query.stateData;
+
+  const parsedData = JSON.parse(
+    decodeURIComponent(stateData)
+  );
+
+  const loginUrl = parsedData.loginUrl;
+  const clientId = parsedData.clientId;
+
   const authUrl =
     `${loginUrl}/services/oauth2/authorize` +
     `?response_type=code` +
-    `&client_id=${process.env.SALESFORCE_CLIENT_ID}` +
+    `&client_id=${clientId}` +
     `&redirect_uri=${process.env.SALESFORCE_REDIRECT_URI}` +
-    `&state=${encodeURIComponent(loginUrl)}`;
+    `&state=${stateData}`;
 
   res.redirect(authUrl);
 });
@@ -33,10 +38,17 @@ app.get("/auth/salesforce", (req, res) => {
 app.get("/callback", async (req, res) => {
 
   const code = req.query.code;
-  const loginUrl =
-  req.query.state ||
-  "https://login.salesforce.com";
-  
+
+const parsedData = JSON.parse(
+  decodeURIComponent(req.query.state)
+);
+
+const loginUrl = parsedData.loginUrl;
+
+const clientId = parsedData.clientId;
+
+const clientSecret = parsedData.clientSecret;
+
   try {
 
     const response = await axios.post(
@@ -45,8 +57,8 @@ app.get("/callback", async (req, res) => {
       {
         params: {
           grant_type: "authorization_code",
-          client_id: process.env.SALESFORCE_CLIENT_ID,
-          client_secret: process.env.SALESFORCE_CLIENT_SECRET,
+          client_id: clientId,
+          client_secret: clientSecret,
           redirect_uri: process.env.SALESFORCE_REDIRECT_URI,
           code: code
         }
