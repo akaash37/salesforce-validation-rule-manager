@@ -33,7 +33,10 @@ app.get("/auth/salesforce", (req, res) => {
 app.get("/callback", async (req, res) => {
 
   const code = req.query.code;
-
+  const loginUrl =
+  req.query.state ||
+  "https://login.salesforce.com";
+  
   try {
 
     const response = await axios.post(
