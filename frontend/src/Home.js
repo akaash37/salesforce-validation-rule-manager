@@ -6,11 +6,16 @@ function Home() {
   const [rules, setRules] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const [loginUrl, setLoginUrl] = useState(
+  "https://login.salesforce.com"
+    );
+
   const token = localStorage.getItem("access_token");
   const instanceUrl = localStorage.getItem("instance_url");
 
   const handleLogin = () => {
-    window.location.href = "https://salesforce-validation-backend-mp45.onrender.com/auth/salesforce";
+    window.location.href =
+  `https://salesforce-validation-backend-mp45.onrender.com/auth/salesforce?loginUrl=${encodeURIComponent(loginUrl)}`;
   };
 
   const handleLogout = () => {
@@ -123,6 +128,14 @@ function Home() {
             <p className="text-gray-600 mb-6">
               Login to manage validation rules directly from your Salesforce org.
             </p>
+
+            <input
+              type="text"
+              value={loginUrl}
+              onChange={(e) => setLoginUrl(e.target.value)}
+              placeholder="Enter Salesforce Login URL"
+              className="w-full border p-3 rounded-lg mb-4"
+            />
 
             <button
               onClick={handleLogin}
