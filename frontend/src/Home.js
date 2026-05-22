@@ -15,9 +15,6 @@ function Home() {
 
   const [loading, setLoading] = useState(false);
 
-  const [loginUrl, setLoginUrl] = useState(
-  "https://login.salesforce.com"
-    );
 
   const token = localStorage.getItem("access_token");
   const instanceUrl = localStorage.getItem("instance_url");
