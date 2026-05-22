@@ -19,12 +19,13 @@ app.get("/auth/salesforce", (req, res) => {
   const loginUrl =
     req.query.loginUrl ||
     "https://login.salesforce.com";
-
+     const code = req.query.code;
   const authUrl =
     `${loginUrl}/services/oauth2/authorize` +
     `?response_type=code` +
     `&client_id=${process.env.SALESFORCE_CLIENT_ID}` +
-    `&redirect_uri=${process.env.SALESFORCE_REDIRECT_URI}`;
+    `&redirect_uri=${process.env.SALESFORCE_REDIRECT_URI}` +
+    `&state=${encodeURIComponent(loginUrl)}`;
 
   res.redirect(authUrl);
 });
@@ -36,7 +37,7 @@ app.get("/callback", async (req, res) => {
   try {
 
     const response = await axios.post(
-      "https://login.salesforce.com/services/oauth2/token",
+      `${loginUrl}/services/oauth2/token`,
       null,
       {
         params: {
